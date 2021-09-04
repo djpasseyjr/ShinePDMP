@@ -1,0 +1,64 @@
+---
+title: "EMA Data: Zero Inflated Models with Random Effects"
+author: "DJ Passey"
+date: "March 24, 2021"
+output: pdf_document
+header-includes:
+     - \renewcommand{\familydefault}{\sfdefault}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Negative Binomial Zero Inflated Model
+```{r}
+library(glmmTMB)
+df <- read.csv("~/Data/Muri/SHINE_EMA_Round1_19May2020.csv")
+y <- df$Num_Beer + df$Num_Liquor + df$Num_Wine
+```
+## Regress `Num_Alcohol` on `Condition`
+```{r}
+m <- glmmTMB(y~Condition, data=df, family=nbinom2)
+summary(m)
+```
+## Compare with `lm`
+```{r}
+m <- lm(y~Condition, data=df)
+summary(m)
+```
+## Add Zero Inflation
+```{r}
+m <- glmmTMB(y~Condition, zi=~Condition, data=df, family=nbinom2)
+summary(m)
+```
+
+## Add Random Effects
+```{r}
+m <- glmmTMB(y~Condition + (1|GROUP.ID), zi=~Condition, data=df, family=nbinom2)
+summary(m)
+```
+
+## Remove Zero Inflation
+```{r}
+m <- glmmTMB(y~Condition + (1|GROUP.ID), data=df, family=nbinom2)
+summary(m)
+```
+
+## Regress `Num_Alcohol` on `Condition` and `Craving`
+```{r}
+m <- glmmTMB(y~Condition + Craving_Alc, data=df, family=nbinom2)
+summary(m)
+```
+
+## Add Zero Inflation
+```{r}
+m <- glmmTMB(y~Condition + Craving_Alc, zi=~Condition + Craving_Alc, data=df, family=nbinom2)
+summary(m)
+```
+
+## Add Random Effects
+```{r}
+m <- glmmTMB(y~Condition + Craving_Alc + (1|GROUP.ID), zi=~Condition + Craving_Alc, data=df, family=nbinom2)
+summary(m)
+```
