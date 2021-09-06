@@ -9,7 +9,7 @@ This directory contains the code and computational notebooks used to studying ca
 
 ### Getting Started
 
-To run the Python code contained in these notebooks you will need to [install jupyter](https://jupyter.org/install) and several python packages: `pandas, scipy, statsmodels`.
+To run the Python code contained in these notebooks you will need to [install jupyter](https://jupyter.org/install) and several python packages: `pandas, scipy, matplotlib, numpy, statsmodels`.
 
 To run the Julia code you need to [install Julia](https://julialang.org/downloads/) and add several packages by starting a Julia REPL session and entering 
 
